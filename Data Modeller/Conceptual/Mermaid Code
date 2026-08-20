@@ -1,0 +1,112 @@
+---
+config:
+  theme: neo
+  layout: dagre
+---
+flowchart TB
+ subgraph S1["SOE"]
+    direction LR
+        A["VEG SHOP<br>Source data"]
+  end
+ subgraph S2["SOR"]
+    direction LR
+        B["KITCHEN SLAB<br> Raw data / Inspect"]
+        C["SEGREGATION<br> Extracted and loaded"]
+        D["CLEANSING / POLISHING<br> Cleaned,deduplicated,strandadize"]
+        E["CURATION<br> Data Curation"]
+        F["TAWA <br> Transform of data"]
+        G["TASTING<br> Analysis of data"]
+  end
+ subgraph S3["SOI"]
+    direction LR
+        H["PLATING / AGGREGATION<br> Consistent data"]
+        I["READY TO CONSUME <br> Reports(BI,ML)"]
+  end
+    A --> B
+    C --> D
+    F --> G
+    B --> C
+    D --> E
+    E --> F
+    G --> H
+    H --> I
+
+    style A fill:#e6e6e6
+    style B fill:#cccccc
+    style C fill:#cccccc
+    style D fill:#cccccc
+    style E fill:#cccccc
+    style F fill:#cccccc
+    style G fill:#cccccc
+    style H fill:#cccccc
+    style I fill:#cccccc
+    style S3 color:#AA00FF,fill:#C8E6C9
+    style S1 fill:#C8E6C9
+    style S2 fill:#C8E6C9,stroke:#C8E6C9
+
+-----------------------------------------------------------------------------------------------------
+
+---
+config:
+  theme: neo
+---
+flowchart LR
+    A["Staging Layer/Landing Pad<br>- File System/RDBMS<br>- Stores the raw data<br>- No history/Archival process for old data<br>- Minimal transformation"] --> B["ODS Layer<br>- Cleansed &amp; scrubbed data<br>- Removal of duplicate data/Transformation<br>- Standardizes units &amp; codes<br>- Integration of multiple source data"]
+    B --> C["EDW Layer<br>- Central historical repository<br>- Complex transformation/Facts &amp; Dimension tables/<br>- Applies business rules &amp; derived metrics<br>- Single source of truth for analysis"]
+    C --> D["Data Marts<br>- Subject oriented<br>- Aggregations for departments<br>- Improves performance<br>- Subjected data views"]
+    D --> E["Reporting Layer<br>- Presentation-ready data<br>-Readymade data set for reporting<br>- Supports dashboards &amp; BI tools<br>- Applies security filters"]
+
+    A@{ shape: docs}
+    B@{ shape: db}
+    C@{ shape: db}
+    D@{ shape: db}
+    E@{ shape: stored-data}
+    style A fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+    style B fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+    style C fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+    style D fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+    style E fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+
+-----------------------------------------------------------------------------------------------------
+---
+config:
+  theme: neo
+---
+erDiagram
+    Entity1 ||--o{ Entity2 : "relation name"
+    User ||--|| SSN : "One to One"
+    User ||--o{ Orders : "One to Zero/Many"
+    Orders }o--|| User : "Zero/Many to One"
+    User }o--o{ Products : "Zero/Many to Zero/Many"
+    User }|--|{ Products : "One/Many to One/Many"
+
+
+-----------------------------------------------------------------------------------------------------
+
+---
+config:
+  theme: neo
+---
+flowchart LR
+   AA["`**SOURCE** <br> DBMS<br> RDBMS`"] --Push/Pull<br> Data ingest--> A["`**Staging Layer/Landing Pad**<br>- File System/RDBMS<br>- No history/Archival process for old data`"]
+    A --Raw/Native/duplicate data--> BB["DSA Layer</br> Staging tables</br>Raw data<br>- No history/Archival process for old data"]
+    BB --Basic Transformation<br>Cleansing/Scrubbing/de-duplicated--> B["`**ODS Layer**<br>- Cleansed &amp; scrubbed data<br>- Removal of duplicate data/Transformation<br>- Standardizes units &amp; codes<br>- Integration of multiple source data`"]
+    B --Table creation</br>Facts/Dimensional/Aggregated--> C["`**DWH Layer**<br>- Central historical repository<br>- Complex transformation/Facts &amp; Dimension tables/<br>- Applies business rules &amp; derived metrics<br>- Single source of truth for analysis`"]
+    C --Table creation</br>Dimensional/Aggregated--> D["`**Data Marts**<br>- Subject oriented<br>- Aggregations for departments<br>- Improves performance<br>- Subjected data views`"]
+    D --Dashboards/Views--> E["`**Reporting Layer**<br>- Presentation-re           ady data<br>-Readymade data set for reporting<br>- Supports dashboards &amp; BI tools<br>- Applies security filters`"]
+
+    AA@{ shape: db}
+    A@{ shape: disk}
+    B@{ shape: db}
+    C@{ shape: db}
+    D@{ shape: db}
+    E@{ shape: stored-data}
+    style AA fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+    style A fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+    style B fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+    style C fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+    style D fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+    style E fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+
+
+
