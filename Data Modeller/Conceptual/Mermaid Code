@@ -88,25 +88,34 @@ config:
   theme: neo
 ---
 flowchart LR
-   AA["`**SOURCE** <br> DBMS<br> RDBMS`"] --Push/Pull<br> Data ingest--> A["`**Staging Layer/Landing Pad**<br>- File System/RDBMS<br>- No history/Archival process for old data`"]
-    A --Raw/Native/duplicate data--> BB["DSA Layer</br> Staging tables</br>Raw data<br>- No history/Archival process for old data"]
-    BB --Basic Transformation<br>Cleansing/Scrubbing/de-duplicated--> B["`**ODS Layer**<br>- Cleansed &amp; scrubbed data<br>- Removal of duplicate data/Transformation<br>- Standardizes units &amp; codes<br>- Integration of multiple source data`"]
-    B --Table creation</br>Facts/Dimensional/Aggregated--> C["`**DWH Layer**<br>- Central historical repository<br>- Complex transformation/Facts &amp; Dimension tables/<br>- Applies business rules &amp; derived metrics<br>- Single source of truth for analysis`"]
-    C --Table creation</br>Dimensional/Aggregated--> D["`**Data Marts**<br>- Subject oriented<br>- Aggregations for departments<br>- Improves performance<br>- Subjected data views`"]
-    D --Dashboards/Views--> E["`**Reporting Layer**<br>- Presentation-re           ady data<br>-Readymade data set for reporting<br>- Supports dashboards &amp; BI tools<br>- Applies security filters`"]
+ subgraph s1["**Staging Layer/Landing Pad**"]
+        A@{ label: "Files from different source<br>- No history/Archival process for old data`" }
+  end
+ subgraph s2["Sources"]
+        AA["RDBMS"]       
+        A1["Files"]
+  end
+    AA -- Push/Pull<br> Data ingest --> A
+    A -- ETL <br>Raw/Native/duplicate data --> BB["DSA Layer<br> Staging tables<br>Raw data<br>- No history/Archival process for old data"]
+    BB -- "Basic Transformation<br>Cleansing/Scrubbing/de-duplicated" --> B["`**ODS Layer**<br>- Cleansed &amp; scrubbed data<br>- Removal of duplicate data/Transformation<br>- Standardizes units &amp; codes<br>- Integration of multiple source data`"]
+    B -- Basic transformation<br>Table creation<br>Facts/Dimensional/Aggregated --> C["`**DWH Layer**<br>- Central historical repository<br>- Complex transformation/Facts &amp; Dimension tables/<br>- Applies business rules &amp; derived metrics<br>- Single source of truth for analysis`"]
+    C -- Complex business transformation<br>Table creation<br>Dimensional/Aggregated --> D["`**Data Marts**<br>- Subject oriented<br>- Aggregations for departments<br>- Improves performance<br>- Subjected data views`"]
+    D -- Dashboards/Views --> E["`**Reporting Layer**<br>- Presentation-ready data<br>-Readymade data set for reporting<br>- Supports dashboards &amp; BI tools<br>- Applies security filters`"]
+    C --Facts/Aggregated tables--> E
 
+    A@{ shape: docs}
     AA@{ shape: db}
-    A@{ shape: disk}
+    A1@{ shape: docs}
+    BB@{ shape: cyl}
     B@{ shape: db}
     C@{ shape: db}
     D@{ shape: db}
     E@{ shape: stored-data}
-    style AA fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
     style A fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+    style AA fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
+    style A1 stroke-width:4px,stroke-dasharray: 0,fill:#FFF9C4
+    style BB fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
     style B fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
     style C fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
     style D fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
     style E fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
-
-
-
