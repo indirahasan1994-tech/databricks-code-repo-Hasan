@@ -1,0 +1,112 @@
+
+---
+config:
+  theme: neo
+---
+erDiagram
+    BRANCH {
+        string Address
+        int BranchID
+        string BranchName
+        string City
+        string Status
+        string Zipcode
+    }  
+    EMPLOYEES {
+        int BranchID
+        int EmployeeID
+        string FirstName
+        date HireDate
+        string LastName
+        int ManagerID
+    } 
+    CUST_PROFILE {
+        string Address
+        int BranchID
+        int CustomerID
+        date DateOfBirth
+        string Email
+        string FirstName
+        string LastName
+        string PhoneNumber
+    }
+    ACCOUNTS {
+        string AccountID
+        string AccountType
+        float Balance
+        int CreditScore
+        string Currency
+        int CustomerID
+        date DateOpened
+        int ManagerID
+        date load_dt
+        timestamp load_ts
+    }
+    TRANSACTIONS {
+        string AccountID
+        float Amount
+        string Currency
+        string Description
+        datetime EventTs
+        boolean Suspicious
+        date TransactionDate
+        float TransactionFee
+        int TransactionID
+        string TransactionType
+        string Status
+        date load_dt
+        timestamp load_ts
+    }
+    PAYMENTS {
+        float Amount
+        string AuditTrail
+        string ClearingSystem
+        string Currency
+        string CustomerSegment
+        string Description
+        float ExchangeRate
+        float Fee
+        string FromAccountID
+        string MerchantName
+        date PaymentDate
+        int PaymentID
+        string PaymentType
+        string ToAccountID
+        date load_dt
+        timestamp load_ts
+    }
+    CREDITCARD {
+        float Balance
+        string BillCycle
+        string CardID
+        string CardNumber
+        string CardType
+        float CreditLimit
+        int CustomerID
+        date ExpirationDate
+        float InterestRate
+        date IssueDate
+        string Status
+        date load_dt
+        timestamp load_ts
+    }
+    LOANS {
+        float Amount
+        string Collateral
+        int CustomerID
+        date EndDate
+        float InterestRate
+        int LoanID
+        string LoanType
+        string PaymentFrequency
+        date StartDate
+        string Status
+    } 
+    BRANCH ||--|{ EMPLOYEES :"Can have multiple"
+    BRANCH ||--|{ CUST_PROFILE :"Can have multiple"
+    BRANCH ||--|{ ACCOUNTS :"Can have multiple"
+    CUST_PROFILE ||--|{ ACCOUNTS :"Can owns one or multiple" 
+    ACCOUNTS ||--|{ TRANSACTIONS :"Can do multiple"
+    ACCOUNTS  ||--O{ PAYMENTS :"Can do multiple" 
+    CUST_PROFILE ||--O{ CREDITCARD :"May/May not owns"
+    CUST_PROFILE ||--O{ LOANS :"May/Maynot have" 
