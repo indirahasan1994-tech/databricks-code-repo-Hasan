@@ -1,5 +1,32 @@
 -----------------------------------------------------------------------------------------------------
-                                    Physical Data Model 
+                                    Basic Physical Data Model 
+-----------------------------------------------------------------------------------------------------
+---
+config:
+  layout: dagre
+---
+flowchart LR
+    subgraph SRC["Source Systems"]
+        accountsfile["accounts"]
+        transactionsfile["transactions"]
+        paymentsfile["payments"]
+        creditcardfile["creditcard"]
+
+    end
+    subgraph STAGING["Staging"]
+        accounts["accounts"]
+        transactions["transactions"]
+        payments["payments"]
+        creditcard["creditcard"]
+
+    end
+    SRC --Pushing the data files--> STAGING
+    accountsfile -->|"Fin Source push the data files"| accounts
+    transactionsfile -->|"POS Source push the data files"| transactions
+    paymentsfile -->|"PPS Source push the data files"| payments
+
+-----------------------------------------------------------------------------------------------------
+                                    BFSI Physical Data Model 
 -----------------------------------------------------------------------------------------------------
 ---
 config:
