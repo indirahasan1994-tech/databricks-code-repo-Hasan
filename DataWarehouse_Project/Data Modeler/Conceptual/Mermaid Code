@@ -1,3 +1,7 @@
+-----------------------------------------------------------------------------------------------------
+                                            Model 1
+-----------------------------------------------------------------------------------------------------
+
 ---
 config:
   theme: neo
@@ -45,7 +49,8 @@ flowchart TB
     style S2 fill:#C8E6C9,stroke:#C8E6C9
 
 -----------------------------------------------------------------------------------------------------
-
+                                            Model 2
+-----------------------------------------------------------------------------------------------------
 ---
 config:
   theme: neo
@@ -68,19 +73,7 @@ flowchart LR
     style E fill:#FFF9C4,stroke-width:4px,stroke-dasharray: 0
 
 -----------------------------------------------------------------------------------------------------
----
-config:
-  theme: neo
----
-erDiagram
-    Entity1 ||--o{ Entity2 : "relation name"
-    User ||--|| SSN : "One to One"
-    User ||--o{ Orders : "One to Zero/Many"
-    Orders }o--|| User : "Zero/Many to One"
-    User }o--o{ Products : "Zero/Many to Zero/Many"
-    User }|--|{ Products : "One/Many to One/Many"
-
-
+                                            Model 3
 -----------------------------------------------------------------------------------------------------
 
 ---
@@ -97,9 +90,9 @@ flowchart LR
   end
     AA -- Push/Pull<br> Data ingest --> A
     A -- ETL <br>Raw/Native/duplicate data --> BB["DSA Layer<br> Staging tables<br>Raw data<br>- No history/Archival process for old data"]
-    BB -- "Basic Transformation<br>Cleansing/Scrubbing/de-duplicated" --> B["`**ODS Layer**<br>- Cleansed &amp; scrubbed data<br>- Removal of duplicate data/Transformation<br>- Standardizes units &amp; codes<br>- Integration of multiple source data`"]
-    B -- Basic transformation<br>Table creation<br>Facts/Dimensional/Aggregated --> C["`**DWH Layer**<br>- Central historical repository<br>- Complex transformation/Facts &amp; Dimension tables/<br>- Applies business rules &amp; derived metrics<br>- Single source of truth for analysis`"]
-    C -- Complex business transformation<br>Table creation<br>Dimensional/Aggregated --> D["`**Data Marts**<br>- Subject oriented<br>- Aggregations for departments<br>- Improves performance<br>- Subjected data views`"]
+    BB -- "Apply Data Cleansing & Scrubbing & load" --> B["`**ODS Layer**<br>- Cleansed &amp; scrubbed data<br>- Removal of duplicate data/Transformation<br>- Standardizes units &amp; codes<br>- Integration of multiple source data`"]
+    B -- Apply business logics & transformation including Dim, Fact & Aggregate tables load --> C["`**DWH Layer**<br>- Central historical repository<br>- Complex transformation/Facts &amp; Dimension tables/<br>- Applies business rules &amp; derived metrics<br>- Single source of truth for analysis`"]
+    C -- Join, aggregation, subjectful fact tables load --> D["`**Data Marts**<br>- Subject oriented<br>- Aggregations for departments<br>- Improves performance<br>- Subjected data views`"]
     D -- Dashboards/Views --> E["`**Reporting Layer**<br>- Presentation-ready data<br>-Readymade data set for reporting<br>- Supports dashboards &amp; BI tools<br>- Applies security filters`"]
     C --Facts/Aggregated tables--> E
 
