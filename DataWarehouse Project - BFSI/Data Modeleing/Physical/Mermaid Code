@@ -1,0 +1,136 @@
+-----------------------------------------------------------------------------------------------------
+                                    Physical Data Model 
+-----------------------------------------------------------------------------------------------------
+---
+config:
+  layout: dagre
+---
+flowchart LR
+ subgraph SRC["SOURCE SYSTEM"]
+        branchfile["branch"]
+        customersfile["customer"]
+        accountsfile["accounts"]
+        employeefile["employees"]
+        paymentfile["payment"]
+        transactionfile["transaction"]
+        creditcardfile["creditcard"]
+        loanfile["loans"]
+  end
+ subgraph STAGING["STAGING LAYER"]
+        branch["branch"]
+        customers["customer"]
+        accounts["accounts"]
+        employee["employees"]
+        payment["payment"]
+        transaction["transaction"]
+        creditcard["creditcard"]
+        loan["loans"]
+  end
+ subgraph DSA["DSA LAYER"]
+        branchtable["stg_branch"]
+        customerstable["stg_customer"]
+        accountstable["stg_accounts"]
+        employeetable["stg_employees"]
+        paymenttable["stg_payment"]
+        transactiontable["stg_transaction"]
+        creditcardtable["stg_creditcard"]
+        loantable["stg_loans"]
+  end      
+  subgraph ODS["ODS STAGING AREA"]
+        branchodstable["ods_branch"]
+        customersodstable["ods_customer"]
+        accountsodstable["ods_accounts"]
+        employeeodstable["ods_employees"]
+        paymentodstable["ods_payment"]
+        transactionodstable["ods_transaction"]
+        creditcardodstable["ods_creditcard"]
+        loanodstable["ods_loans"]       
+  end
+   subgraph MARTS["Data Marts"]
+        subgraph TRANS_MART["trans_mart"]
+            fact_transactions[("fact_transactions")]
+        end    
+        subgraph PAYMENT_MART["pay_mart"]
+            pay_transactions[("payment_transactions")]
+        end 
+        subgraph TRANS_MART["trans_mart"]
+            fact_transactions[("fact_transactions")]
+            agg_branch_trans_summary[("agg_branch_trans_summary")]
+        end    
+        subgraph CREDIT_MART["credit_mart"]
+            credit_transactions[("creditcard_transactions")]
+        end 
+        subgraph LOANS_MART["loans_mart"]
+            fact_high_value_loans[("fact_high_value_loans")]
+        end 
+   end
+   subgraph EDW Layer["Enterprise DataWarehouse  - edwh"]
+        subgraph DIMENSIONS["Dimensions"]
+            dim_branch[("dim_branch")]  
+            dim_employees[("dim_employees")]  
+            dim_customer[("dim_customer")]  
+            dim_loans[("dim_loans")]   
+        end    
+        subgraph FACTS["Facts & Aggregates"]
+            fact_loans[("fact_loans")]
+            fact_loan_summary[("fact_loan_summary")]
+        end          
+   end
+
+    branchfile --> branch
+    customersfile --> customers
+    accountsfile --> accounts
+    employeefile --> employee
+    paymentfile --> payment
+    transactionfile --> transaction
+    creditcardfile --> creditcard
+    loanfile --> loan
+    branch --> branchtable
+    customers --> customerstable
+    accounts --> accountstable
+    employee --> employeetable
+    payment --> paymenttable
+    transaction --> transactiontable
+    creditcard --> creditcardtable
+    loan --> loantable
+    branchtable --> branchodstable
+    customerstable --> customersodstable
+    accountstable --> accountsodstable
+    employeetable --> employeeodstable
+    paymenttable --> paymentodstable
+    transactiontable --> transactionodstable
+    creditcardtable --> creditcardodstable
+    loantable --> loanodstable
+    paymentodstable --> pay_transactions
+    transactionodstable --> fact_transactions
+    fact_transactions --> agg_branch_trans_summary
+    accountsodstable --> agg_branch_trans_summary
+    creditcardodstable --> credit_transactions
+    branchodstable --> dim_branch
+    customersodstable --> dim_customer
+    employeeodstable --> dim_employees
+    loanodstable --> dim_loans
+    loanodstable --> fact_loans
+    customersodstable --> fact_loans
+    branchodstable --> fact_loans
+    fact_loans --> fact_loan_summary
+    dim_branch --> agg_branch_trans_summary
+    dim_customer --> agg_branch_trans_summary       
+    fact_loans --> fact_high_value_loans
+
+    branchtable@{ shape: db}
+    customerstable@{ shape: db}
+    accountstable@{ shape: db}
+    employeetable@{ shape: db}
+    paymenttable@{ shape: db}
+    transactiontable@{ shape: db}
+    creditcardtable@{ shape: db}
+    loantable@{ shape: db}
+    branchodstable@{ shape: db}
+    customersodstable@{ shape: db}
+    accountsodstable@{ shape: db}
+    employeeodstable@{ shape: db}
+    paymentodstable@{ shape: db}
+    transactionodstable@{ shape: db}
+    creditcardodstable@{ shape: db}
+    loanodstable@{ shape: db}
