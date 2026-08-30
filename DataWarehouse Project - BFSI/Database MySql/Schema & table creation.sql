@@ -288,6 +288,23 @@ CREATE TABLE edwdb_hasan.fact_loans (
     HighValueFlag CHAR(1),
     load_dt DATE NOT NULL,
     load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+	
+CREATE TABLE IF NOT EXISTS edwdb_hasan.fact_loan_summary (
+    BranchID                INT,
+    RiskIndicator           VARCHAR(20),
+    LoanCount               INT,
+    TotalLoanAmount         DECIMAL(18,2),
+    AverageLoanAmount       DECIMAL(18,2),
+    MaximumLoanAmount       DECIMAL(18,2),
+    MinimumLoanAmount       DECIMAL(18,2),
+    HighValueLoanCount      INT,
+    HighValueLoanAmount     DECIMAL(18,2),
+    ActiveLoanCount         INT,
+    ClosedLoanCount         INT,
+    AverageInterestRate     DECIMAL(10,2),
+    AverageLoanDurationMonths DECIMAL(10,2),
+    load_dt                 DATE,
+    load_ts                 TIMESTAMP);	
 
 CREATE DATABASE loans_mart;
 
@@ -310,22 +327,6 @@ CREATE TABLE loans_mart.fact_high_value_loans (
     load_ts                 TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS edwdb_hasan.fact_loan_summary (
-    BranchID                INT,
-    RiskIndicator           VARCHAR(20),
-    LoanCount               INT,
-    TotalLoanAmount         DECIMAL(18,2),
-    AverageLoanAmount       DECIMAL(18,2),
-    MaximumLoanAmount       DECIMAL(18,2),
-    MinimumLoanAmount       DECIMAL(18,2),
-    HighValueLoanCount      INT,
-    HighValueLoanAmount     DECIMAL(18,2),
-    ActiveLoanCount         INT,
-    ClosedLoanCount         INT,
-    AverageInterestRate     DECIMAL(10,2),
-    AverageLoanDurationMonths DECIMAL(10,2),
-    load_dt                 DATE,
-    load_ts                 TIMESTAMP);
 
 create database trans_mart_hasan;
 CREATE TABLE trans_mart_hasan.fact_transactions (
